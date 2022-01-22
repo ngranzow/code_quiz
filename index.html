@@ -9,8 +9,8 @@
 </head>
 <body>
     <header>
-        <div id="nav">
-            <span id="highscores">View High Scores</span>
+        <div>
+            <span class="scores">View High Scores</span>
         </div>
         <div id="timer" class="timer"></div>
     </header>
@@ -22,7 +22,7 @@
             Try to answer the following code-related questions within the time limit.<br />
             Keep in mind that incorrect answers will penalize your score/time by ten seconds!
         </p>
-        <div class="buttons">
+        <div>
             <button id="start-btn">Start Quiz</button>
         </div>
     </section>
@@ -30,11 +30,11 @@
     <!-- queston section hidden until player starts quiz -->
     <section id="question-container" class="hide">
         <h2 id="question"></h2>
-        <div id="answer-btn" class="buttons">
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>
+        <div id="answer-btn" class="ans-btns">
+            <button id="ans1"></button>
+            <button id="ans2"></button>
+            <button id="ans3"></button>
+            <button id="ans4"></button>
         </div>
         <h3 id="answer-check" class="right-wrong hide"></h3>
     </section>
@@ -44,8 +44,8 @@
         <form id="submit-form">
             <h2>All done!</h2>
             <p id="final-score"></p>
-            <input type="text" id="initial-input" maxlength="3" placeholder="Enter your initials" />
-            <button id="submit-btn" class="buttons">Submit</button>
+            <input type="text" id="initial-input" class="initials-input" maxlength="3" placeholder="Enter your initials" />
+            <button id="submit-btn">Submit</button>
         </form>
     </section>
 
@@ -53,8 +53,10 @@
     <section id="highscores" class="hide">
         <div>
             <h1>High Scores</h1>
-            <div id="highscore-display" class="highscore-list"></div>
-            <div class="buttons">
+            <div>
+                <p id="highscore-display" class="highscore-list"></p>
+            </div>
+            <div>
                 <button id="go-back-btn">Go back</button>
                 <button id="clear-btn">Clear high scores</button>
             </div>
