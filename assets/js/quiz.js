@@ -37,12 +37,14 @@ var highscoresSecEl = document.getElementById("highscores");
 var highscoresEl = document.getElementById("highscore-display");
 var goBackBtn = document.getElementById("go-back-btn");
 var clearBtn = document.getElementById("clear-btn");
+var viewScoresEl = document.getElementById("viewScores");
 var questionIndex = 0;
 var timerID;
 
 // Start button triggers first question
 startBtn.addEventListener("click", startQuiz);
 answerBtn.addEventListener("click", compareAnswer);
+viewScoresEl.addEventListener("click", showHighscores);
 
 // Countdown
 function countdownTimer() {
@@ -112,6 +114,44 @@ function endQuiz() {
         clearInterval(timerID);
         var timeRemaining = time;
         timerEl.textContent = "Time: " + timeRemaining;
-        finalScoreEl.textContent = "Your final score is " +timeRemaining;
+        finalScoreEl.textContent = "Your final score is " + timeRemaining;
     }
+
+    // submitBtn.addEventListener("click", function() {
+    //     var initials = initialsInEl.value;
+
+    //     if (initials === null) {
+    //         alert("Please enter intials!");
+    //     } else {
+    //         var currentScores = JSON.parse(currentScores);
+    //         var newScore = {
+    //             initials: initials,
+    //             score: timeRemaining,
+    //         }
+    //         currentScores.push(newScore);
+    //         localStorage.setItem("currentScores", newScore);
+    //     }
+
+    //     showHighscores();
+    // });
+
+    submitBtn.addEventListener("click", showHighscores);
+}
+
+
+
+function showHighscores() {
+    startSecEl.classList.add("hide");
+    questionSecEl.classList.add("hide");
+    playerScoreSecEl.classList.add("hide");
+    highscoresSecEl.classList.remove("hide");
+
+    goBackBtn.addEventListener("click", function() {
+        window.location.reload();
+    });
+
+    clearBtn.addEventListener("click", function() {
+        localStorage.clear();
+        highscoresEl.innerText = "";
+    });    
 }
