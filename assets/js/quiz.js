@@ -28,6 +28,7 @@ var startBtn = document.getElementById("start-btn");
 var questionSecEl = document.getElementById("questions");
 var questionEl = document.getElementById("question");
 var answerBtn = document.getElementById("answer-btns")
+var answerCheckSecEl = document.getElementById("right-wrong");
 var answerCheckEl = document.getElementById("answer-check");
 var playerScoreSecEl = document.getElementById("player-score");
 var finalScoreEl = document.getElementById("final-score");
@@ -58,6 +59,7 @@ function startQuiz() {
     timerID = setInterval(countdownTimer, 1000);
     startSecEl.classList.add("hide");
     questionSecEl.classList.remove("hide");
+    answerCheckSecEl.classList.remove("hide");
     countdownTimer();
     showQuestion(questionIndex);
 }
@@ -84,9 +86,13 @@ function compareAnswer(event) {
     // check if the answer was correct or wrong and display
     if (playerAnswer.innerText == questions[questionIndex].correctAnswer) {
           answerCheckEl.textContent = "Correct";
+          answerCheckEl.classList.add("right");
+          answerCheckEl.classList.remove("wrong");
      } else {
          time = time - 10;
          answerCheckEl.textContent = "Wrong";
+         answerCheckEl.classList.add("wrong");
+         answerCheckEl.classList.remove("right");
      }
 
     nextQuestion();
@@ -113,7 +119,9 @@ function endQuiz() {
         timerEl.textContent = "Time: " + timeRemaining;
         finalScoreEl.textContent = "Your final score is " + timeRemaining;
     }
+}
 
+function saveScore() {
     var initials = initialsInEl.value;
 
     if (initials === null) {
@@ -129,12 +137,11 @@ function endQuiz() {
     }
 }
 
-
-
 function showHighscores() {
     startSecEl.classList.add("hide");
     questionSecEl.classList.add("hide");
     playerScoreSecEl.classList.add("hide");
+    answerCheckSecEl.classList.add("hide");
     highscoresSecEl.classList.remove("hide");
 
     goBackBtn.addEventListener("click", function() {

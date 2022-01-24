@@ -52,6 +52,14 @@ p {
     display: none;
 }
 
+.right {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
 /* start buttons */
 button {
     color: #ffffff;
