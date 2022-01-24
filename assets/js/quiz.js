@@ -44,6 +44,7 @@ var timerID;
 // Start button triggers first question
 startBtn.addEventListener("click", startQuiz);
 answerBtn.addEventListener("click", compareAnswer);
+submitBtn.addEventListener("click", showHighscores);
 viewScoresEl.addEventListener("click", showHighscores);
 
 // Countdown
@@ -67,11 +68,10 @@ function showQuestion() {
 
     answerBtn.innerHTML = "";
 
-    questions[questionIndex].answers.forEach(function(answer, index) {
+    questions[questionIndex].answers.forEach(function(answer) {
         var li = document.createElement("li");
-        li.dataset.index = index;
         var button = document.createElement("button");
-        button.textContent = (index + 1) + ". " + answer;
+        button.textContent = answer;
         li.appendChild(button);
         answerBtn.appendChild(li);
     });
@@ -81,7 +81,14 @@ function showQuestion() {
 function compareAnswer(event) {
     var playerAnswer = event.target;
 
-    checkAnswer(playerAnswer);
+    // check if the answer was correct or wrong and display
+    if (playerAnswer.innerText == questions[questionIndex].correctAnswer) {
+          answerCheckEl.textContent = "Correct";
+     } else {
+         time = time - 10;
+         answerCheckEl.textContent = "Wrong";
+     }
+
     nextQuestion();
 }
 
@@ -92,16 +99,6 @@ function nextQuestion() {
         endQuiz();
     } else {
         showQuestion();
-    }
-}
-
-// check if the answer was correct or wrong and display
-function checkAnswer(playerAnswer) {
-   if (playerAnswer == questions[questionIndex].correctAnswer) {
-         answerCheckEl.textContent = "Correct";
-    } else {
-        time = time - 10;
-        answerCheckEl.textContent = "Wrong";
     }
 }
 
@@ -117,25 +114,19 @@ function endQuiz() {
         finalScoreEl.textContent = "Your final score is " + timeRemaining;
     }
 
-    // submitBtn.addEventListener("click", function() {
-    //     var initials = initialsInEl.value;
+    var initials = initialsInEl.value;
 
-    //     if (initials === null) {
-    //         alert("Please enter intials!");
-    //     } else {
-    //         var currentScores = JSON.parse(currentScores);
-    //         var newScore = {
-    //             initials: initials,
-    //             score: timeRemaining,
-    //         }
-    //         currentScores.push(newScore);
-    //         localStorage.setItem("currentScores", newScore);
-    //     }
-
-    //     showHighscores();
-    // });
-
-    submitBtn.addEventListener("click", showHighscores);
+    if (initials === null) {
+        alert("Please enter intials!");
+    } else {
+        var currentScores = JSON.parse(currentScores);
+        var newScore = {
+            initials: initials,
+            score: timeRemaining,
+        }
+        currentScores.push(newScore);
+        localStorage.setItem("currentScores", newScore);
+    }
 }
 
 
