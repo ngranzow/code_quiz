@@ -1,39 +1,117 @@
 var questions = [
     {
         question: "Which of the following is used for assigning a value to a variable?",
-        answers: [
-            { text: "x", correct: false },
-            { text: "=", correct: true },
-            { text: "-", correct: false },
-            { text: ".", correct: false}
-        ]
+        answers: ["x", "=", "-", "."],
+        correctAnswer: "="
     },
     {
         question: "What is the correct way to write an array?",
-        answers: [
-            { text: "let animals = ('dog', 'cat', 'mouse)", correct: false },
-            { text: "let animals = {'dog', 'cat', 'mouse'}", correct: false },
-            { text: "let animals = ['dog', 'cat', 'mouse']", correct: true },
-            { text: "let animals = 'dog', 'cat', 'mouse'", correct: false }
-        ]
+        answers: ["let animals = ('dog', 'cat', 'mouse)", "let animals = {'dog', 'cat', 'mouse'}", "let animals = ['dog', 'cat', 'mouse']", "let animals = 'dog', 'cat', 'mouse'"],
+        correctAnswer: "let animals = ['dog', 'cat', 'mouse']"
     },
     {
         question: "Commonly used data types DO NOT inlcude:",
-        answers: [
-            { text: "strings", correct: false },
-            { text: "null", correct: false },
-            { text: "alerts", correct: true },
-            { text: "booleans", correct: false}
-        ]
+        answers: ["strings", "null", "alerts", "booleans"],
+        correctAnswer: "alerts"
     },
     {
         question: 'Where does this go <script src="scripts/main.js"></script> in your HTML?',
-        answers: [
-            { text: "Just before the closing </body> tag", correct: true },
-            { text: "Inside the <head></head> tag", correct: false },
-            { text: "Just before the closing </html> tag", correct: false },
-            { text: "At the beginning of the <body> tag", correct: false}
-        ]
+        answers: ["Just before the closing </body> tag", "Inside the <head></head> tag", "Just before the closing </html> tag", "At the beginning of the <body> tag"],
+        correctAnswer: "Just before the closing </body> tag"
     }
 ]
 
+var time = 75;
+var timerEl = document.getElementById("timer");
+var startSecEl = document.getElementById("start");
+var startBtn = document.getElementById("start-btn");
+var questionSecEl = document.getElementById("questions");
+var questionEl = document.getElementById("question");
+var answerBtn = document.getElementById("answer-btns")
+var answerCheckEl = document.getElementById("answer-check");
+var playerScoreSecEl = document.getElementById("player-score");
+var finalScoreEl = document.getElementById("final-score");
+var initialsInEl = document.getElementById("initial-input");
+var submitBtn = document.getElementById("submit-btn");
+var highscoresSecEl = document.getElementById("highscores");
+var highscoresEl = document.getElementById("highscore-display");
+var goBackBtn = document.getElementById("go-back-btn");
+var clearBtn = document.getElementById("clear-btn");
+var questionIndex = 0;
+var timerID;
+
+// Start button triggers first question
+startBtn.addEventListener("click", startQuiz);
+answerBtn.addEventListener("click", compareAnswer);
+
+// Countdown
+function countdownTimer() {
+    time--;
+    timerEl.textContent = "Time: " + time;
+};
+
+// Start quiz
+function startQuiz() {
+    timerID = setInterval(countdownTimer, 1000);
+    startSecEl.classList.add("hide");
+    questionSecEl.classList.remove("hide");
+    countdownTimer();
+    showQuestion(questionIndex);
+}
+
+// show questions
+function showQuestion() {
+    questionEl.textContent = questions[questionIndex].question;
+
+    answerBtn.innerHTML = "";
+
+    questions[questionIndex].answers.forEach(function(answer, index) {
+        var li = document.createElement("li");
+        li.dataset.index = index;
+        var button = document.createElement("button");
+        button.textContent = (index + 1) + ". " + answer;
+        li.appendChild(button);
+        answerBtn.appendChild(li);
+    });
+}
+
+// compare answers with correctAnswer
+function compareAnswer(event) {
+    var playerAnswer = event.target;
+
+    checkAnswer(playerAnswer);
+    nextQuestion();
+}
+
+// go to next question or if at final question, end quiz
+function nextQuestion() {
+    questionIndex++;
+    if (questionIndex >= questions.length) {
+        endQuiz();
+    } else {
+        showQuestion();
+    }
+}
+
+// check if the answer was correct or wrong and display
+function checkAnswer(playerAnswer) {
+   if (playerAnswer == questions[questionIndex].correctAnswer) {
+         answerCheckEl.textContent = "Correct";
+    } else {
+        time = time - 10;
+        answerCheckEl.textContent = "Wrong";
+    }
+}
+
+// end quiz
+function endQuiz() {
+    questionSecEl.classList.add("hide");
+    playerScoreSecEl.classList.remove("hide");
+
+    if (time >= 0) {
+        clearInterval(timerID);
+        var timeRemaining = time;
+        timerEl.textContent = "Time: " + timeRemaining;
+        finalScoreEl.textContent = "Your final score is " +timeRemaining;
+    }
+}

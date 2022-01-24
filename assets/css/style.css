@@ -69,11 +69,6 @@ button:hover {
     background-color: var(--secondary-color);
     cursor: pointer;
 }
-
-.ans-btns {
-    display: flex;
-    flex-direction: column;
-}
 /* end buttons */
 
 /* start enter your initials */
