@@ -41,11 +41,12 @@ var clearBtn = document.getElementById("clear-btn");
 var viewScoresEl = document.getElementById("viewScores");
 var questionIndex = 0;
 var timerID;
+var timeRemaining;
 
 // Start button triggers first question
 startBtn.addEventListener("click", startQuiz);
 answerBtn.addEventListener("click", compareAnswer);
-submitBtn.addEventListener("click", showHighscores);
+submitBtn.addEventListener("click", saveScore);
 viewScoresEl.addEventListener("click", showHighscores);
 
 // Countdown
@@ -56,6 +57,7 @@ function countdownTimer() {
 
 // Start quiz
 function startQuiz() {
+    console.log("dafdfa");
     timerID = setInterval(countdownTimer, 1000);
     startSecEl.classList.add("hide");
     questionSecEl.classList.remove("hide");
@@ -115,25 +117,27 @@ function endQuiz() {
 
     if (time >= 0) {
         clearInterval(timerID);
-        var timeRemaining = time;
+        timeRemaining = time;
         timerEl.textContent = "Time: " + timeRemaining;
         finalScoreEl.textContent = "Your final score is " + timeRemaining;
     }
 }
 
-function saveScore() {
+function saveScore(event) {
+    event.preventDefault(event);
     var initials = initialsInEl.value;
-
-    if (initials === null) {
+    console.log("akdjfad");
+    if (initials === "") {
         alert("Please enter intials!");
     } else {
-        var currentScores = JSON.parse(currentScores);
         var newScore = {
             initials: initials,
             score: timeRemaining,
         }
-        currentScores.push(newScore);
-        localStorage.setItem("currentScores", newScore);
+        console.log("111111", newScore);
+        localStorage.setItem("currentScores", JSON.stringify(newScore));
+
+        showHighscores();
     }
 }
 
@@ -144,6 +148,8 @@ function showHighscores() {
     answerCheckSecEl.classList.add("hide");
     highscoresSecEl.classList.remove("hide");
 
+    JSON.parse(localStorage.getItem("currentScores"));
+
     goBackBtn.addEventListener("click", function() {
         window.location.reload();
     });
@@ -151,5 +157,5 @@ function showHighscores() {
     clearBtn.addEventListener("click", function() {
         localStorage.clear();
         highscoresEl.innerText = "";
-    });    
+    });   
 }
